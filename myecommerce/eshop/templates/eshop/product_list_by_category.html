@@ -1,0 +1,18 @@
+{% extends "eshop/base_generic.html" %} {% block content %}
+<h2>{{ category.name }} Kategorisi</h2>
+
+{% if products %}
+<ul class="product-list">
+  {% for product in products %}
+  <li class="product-item">
+    {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150" />
+    {% else %}
+    <p>Resim yok</p>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Bu kategoride ürün yok.</p>
+{% endif %} {% endblock %}

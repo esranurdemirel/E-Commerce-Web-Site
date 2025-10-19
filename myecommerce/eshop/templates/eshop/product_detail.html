@@ -1,0 +1,29 @@
+{% extends "eshop/base_generic.html" %} {% block content %} {% load static %}
+<link rel="stylesheet" href="{% static 'eshop/style.css?v=1' %}" />
+<h2>Ürün Detayı</h2>
+{% if product.image %}
+<img src="{{ product.image.url }}" alt="{{ product.name }}" />
+{% else %}
+<p>Resim yok</p>
+{% endif %}
+
+<h3>{{ product.name }}</h3>
+<p>{{ product.description }}</p>
+<p><strong>{{ product.price }} TL</strong></p>
+<form action="{% url 'cart_add' product.id %}" method="post">
+  {% csrf_token %}
+  <label for="size">Beden Seç (Numara):</label>
+  <input type="number" name="size" id="size" min="20" max="40" required />
+
+  <label for="quantity">Adet:</label>
+  <input type="number" name="quantity" value="1" min="1" />
+
+  <button type="submit">Sepete Ekle</button>
+</form>
+
+{% if user.is_authenticated and user.is_staff %}
+<form action="{% url 'product_delete' product.id %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Ürünü Sil</button>
+</form>
+{% endif %} {% endblock %}

@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>E-Shop</title>
+
+    <link rel="stylesheet" href="{% static 'eshop/style.css' %}?v=4" />
+  </head>
+
+  <body>
+    <!-- Gizli checkbox + menü butonu -->
+    <input type="checkbox" id="menu-checkbox" />
+    <label for="menu-checkbox" class="menu-toggle">☰ MENÜ</label>
+    <!-- Yan menü -->
+    <nav class="sidebar">
+      <ul>
+        <br />
+        <li><a href="{% url 'product_list' %}">Ana Sayfa</a></li>
+
+        <li>
+          <a href="#">Kategoriler</a>
+          <ul>
+            {% for category in categories %}
+            <li>
+              <a href="{% url 'product_list_by_category' category.id %}"
+                >{{ category.name }}</a
+              >
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+
+        <li><a href="{% url 'product_list' %}">Ürünler</a></li>
+        <li><a href="{% url 'cart_detail' %}">Sepet</a></li>
+        <li><a href="#">Hakkımızda</a></li>
+        <li><a href="#">İletişim</a></li>
+      </ul>
+
+      <img
+        class="logo"
+        src="{% static 'images/logo.jpg' %}"
+        style="width: 200px; margin-top: 20px"
+      />
+    </nav>
+    <header>
+      <nav>
+        {% if user.is_authenticated and user.is_staff %}
+
+        <a href="{% url 'product_list' %}">Anasayfa</a>
+        <a href="{% url 'cart_detail' %}">Sepet</a>
+        <a href="{% url 'add_category' %}">Kategori Ekle</a>
+        <a href="{% url 'add_product' %}">Ürün Ekle</a>
+        <a href="{% url 'orders_list' %}">Siparişler</a>
+        <a href="{% url 'logout' %}">Çıkış Yap</a>
+        <img class="logo2" src="{% static 'images/logo.jpg' %}" />
+        {% elif user.is_authenticated %}
+
+        <a href="{% url 'product_list' %}">ANASAYFA</a>
+        <a href="{% url 'cart_detail' %}">SEPET</a>
+        <a href="{% url 'logout' %}">Çıkış Yap</a>
+        <img class="logo2" src="{% static 'images/logo.jpg' %}" />
+        {% else %}
+
+        <a href="{% url 'login' %}">Giriş Yap</a>
+        <img class="logo2" src="{% static 'images/logo.jpg' %}" />
+
+        {% endif %}
+      </nav>
+    </header>
+
+    <main>
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <p>© 2025 - ARGENTO JEWELRY - Designed by Esranur DEMİREL</p>
+    </footer>
+    <script>
+      let slideIndex = 1
+      showSlides(slideIndex)
+
+      // Next/previous controls
+      function plusSlides(n) {
+        showSlides((slideIndex += n))
+      }
+
+      // Thumbnail image controls
+      function currentSlide(n) {
+        showSlides((slideIndex = n))
+      }
+
+      function showSlides(n) {
+        let i
+        let slides = document.getElementsByClassName('mySlides')
+        let dots = document.getElementsByClassName('dot')
+
+        if (n > slides.length) {
+          slideIndex = 1
+        }
+        if (n < 1) {
+          slideIndex = slides.length
+        }
+
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = 'none'
+        }
+
+        for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(' active', '')
+        }
+
+        slides[slideIndex - 1].style.display = 'block'
+        dots[slideIndex - 1].className += ' active'
+      }
+    </script>
+  </body>
+</html>

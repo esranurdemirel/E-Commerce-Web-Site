@@ -1,0 +1,76 @@
+{% extends "eshop/base_generic.html" %} {% block content %}
+
+<h2>Checkout</h2>
+
+<!-- Sepet Özeti -->
+<section class="cart-summary">
+  <h3>Your Cart</h3>
+  {% if cart.items.all %}
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Size</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart.items.all %}
+      <tr>
+        <td>
+          {% if item.product.image %}
+          <img
+            src="{{ item.product.image.url }}"
+            alt="{{ item.product.name }}"
+            width="60"
+            height="60"
+          />
+          {% endif %} {{ item.product.name }}
+        </td>
+        <td>{{ item.size }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.product.price }} TL</td>
+        <td>{{ item.product.price|floatformat:2|add:item.quantity }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="total">Total: <strong>{{ cart.get_total_cost }} TL</strong></p>
+  {% else %}
+  <p>Your cart is empty.</p>
+  {% endif %}
+</section>
+
+<!-- Sipariş Formu -->
+<section class="checkout-form">
+  <h3>Shipping Information</h3>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_full_name">Full Name:</label>
+      {{ form.full_name }} {% for error in form.full_name.errors %}
+      <p class="error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      <label for="id_email">Email:</label>
+      {{ form.email }} {% for error in form.email.errors %}
+      <p class="error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      <label for="id_address">Address:</label>
+      {{ form.address }} {% for error in form.address.errors %}
+      <p class="error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="checkout-button">Ödemeye Geç</button>
+  </form>
+</section>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "eshop/base_generic.html" %} {% block content %} {% load static %}
+<h2>Sepetiniz</h2>
+
+{% if cart %} {% for cart_item in cart.items.all %}
+<div class="cart-item">
+  {% if cart_item.product.image %}
+  <img
+    src="{{ cart_item.product.image.url }}"
+    alt="{{ cart_item.product.name }}"
+  />
+  {% endif %}
+
+  <h3>{{ cart_item.product.name }} (Size: {{ cart_item.size }})</h3>
+  <p>Fiyat: {{ cart_item.product.price }} TL</p>
+<nav class="cart-actions">
+  <form action="{% url 'cart_update' cart_item.product.id %}" method="post">
+    {% csrf_token %}
+    <input
+      type="number"
+      name="quantity"
+      value="{{ cart_item.quantity }}"
+      min="1"
+    />
+    <input type="hidden" name="size" value="{{ cart_item.size }}" />
+    <button type="submit">Güncelle</button>
+  </form>
+  <form action="{% url 'cart_remove' cart_item.product.id %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="size" value="{{ cart_item.size }}" />
+    <button type="submit">Sil</button>
+  </form>
+</div>
+{% endfor %}
+<h3>Genel Toplam: {{ cart.get_total_cost }} TL</h3>
+<form action="{% url 'checkout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Sepeti Onayla</button>
+</form>
+</nav>
+{% else %}
+<p>Sepetiniz boş.</p>
+{% endif %} {% endblock %}

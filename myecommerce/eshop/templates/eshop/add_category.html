@@ -1,0 +1,8 @@
+{% extends "eshop/base_generic.html" %} {% block content %}
+<h2>Kategori Ekle</h2>
+<form action="{% url 'add_category' %}" method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <br />
+  <button type="submit">Kategori Ekle</button>
+</form>
+{% endblock %}
