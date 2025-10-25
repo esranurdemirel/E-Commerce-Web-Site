@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['argentojewelry.onrender.com']
 
-AUTH_USER_MODEL = 'myecommerce.eshop.CustomUser'
+AUTH_USER_MODEL = 'eshop.CustomUser'
 
 
 # Application definition
