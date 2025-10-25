@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-g=5r@5zj=&(thupf-sthb!p4%9)h^evez0y-$&_k8ez*envp2h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['argentojewelry.onrender.com']
+ALLOWED_HOSTS = ['argentojewelry.onrender.com', 'localhost', '127.0.0.1']
 
 AUTH_USER_MODEL = 'eshop.CustomUser'
 
