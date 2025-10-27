@@ -1,5 +1,5 @@
 {% extends "eshop/base_generic.html" %} {% block content %} {% load static %}
-<link rel="stylesheet" href="{% static 'eshop/style.css?v=1' %}" />
+<link rel="stylesheet" href="{% static 'eshop/style.css' %}">
 <h2>Ürün Detayı</h2>
 {% if product.image %}
 <img src="{{ product.image.url }}" alt="{{ product.name }}" />
