@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: argentojewelry
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate --noinput
+    startCommand: gunicorn myecommerce.wsgi:application
